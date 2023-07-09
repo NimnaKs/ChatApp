@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Server{
-    private static  final int PORT=8007;
+    private static  final int PORT=8008;
     ServerSocket serverSocket=null;
     static List<Socket> clientSockets=new ArrayList<>();
 
@@ -59,6 +59,10 @@ public class Server{
 
     public Profile getProfile(String username) throws SQLException {
         return LoginModel.getProfile(username);
+    }
+
+    public boolean userDeActivate(String fName) throws SQLException {
+        return LoginModel.userDeactivate(fName);
     }
 }
 

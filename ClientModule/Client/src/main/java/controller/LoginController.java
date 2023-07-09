@@ -1,5 +1,6 @@
 package controller;
 
+import clientpkg.Client;
 import com.jfoenix.controls.JFXButton;
 import dto.Profile;
 import javafx.animation.KeyFrame;
@@ -77,6 +78,15 @@ public class LoginController implements Initializable {
                     });
                     Parent root = loader.load();
                     ChatRoomController controller = loader.getController();
+                    Client client = new Client(controller);
+                    controller.setClient(client);
+                    Thread clientThread = new Thread(client);
+                    clientThread.setDaemon(true); // Set the thread as a daemon thread
+                    clientThread.start();
+
+                    Thread serverThread = new Thread(() -> server.start());
+                    serverThread.setDaemon(true); // Set the thread as a daemon thread
+                    serverThread.start();
 
                     Scene scene = new Scene(root);
 

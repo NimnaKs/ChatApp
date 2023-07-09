@@ -28,4 +28,8 @@ public class LoginModel {
         }
         return null;
     }
+
+    public static boolean userDeactivate(String fName) throws SQLException {
+        return CrudUtil.execute("UPDATE profile SET activeStatus=false WHERE f_name=?",fName);
+    }
 }

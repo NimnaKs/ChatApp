@@ -69,6 +69,7 @@ public class ClientHandler implements Runnable {
                     outputStream=new DataOutputStream(socket.getOutputStream());
                     outputStream.writeUTF(message);
                     outputStream.flush();
+                    System.out.println("message broadcasted");
                 }
             }
         } catch (IOException e) {
