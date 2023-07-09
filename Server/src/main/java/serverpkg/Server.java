@@ -1,18 +1,22 @@
-package server;
+package serverpkg;
+
+import dto.Profile;
+import model.LoginModel;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Server{
     private static  final int PORT=8007;
     ServerSocket serverSocket=null;
-
     static List<Socket> clientSockets=new ArrayList<>();
 
-    public Server() {
+    private static Server server=null;
+    private Server() {
 
         try {
             serverSocket=new ServerSocket(PORT);
@@ -23,6 +27,9 @@ public class Server{
 
     }
 
+    public static Server getServerInstance(){
+        return (server==null)?server=new Server():server;
+    }
     public void start() {
         try {
             while (true) {
@@ -39,7 +46,19 @@ public class Server{
     }
 
     public static void main(String[] args) {
-        new Server().start();
+        Server.getServerInstance().start();
+    }
+
+    public boolean checkName(String username) throws SQLException {
+        return LoginModel.checkName(username);
+    }
+
+    public boolean getActiveStatus(String username) throws SQLException {
+        return LoginModel.getActiveStatus(username);
+    }
+
+    public Profile getProfile(String username) throws SQLException {
+        return LoginModel.getProfile(username);
     }
 }
 

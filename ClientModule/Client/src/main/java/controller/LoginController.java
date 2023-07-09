@@ -1,6 +1,7 @@
 package controller;
 
 import com.jfoenix.controls.JFXButton;
+import dto.Profile;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -17,6 +18,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import serverpkg.Server;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -49,8 +52,54 @@ public class LoginController implements Initializable {
     private double xOffset = 0;
     private double yOffset = 0;
 
+    private Server server=Server.getServerInstance();
+    private Profile profile=null;
+
     @FXML
     void onActionAddUser(ActionEvent event) throws IOException {
+        boolean isUserExists=false;
+        boolean isUserActive=false;
+        try {
+            isUserExists=server.checkName(userName.getText());
+            isUserActive=server.getActiveStatus(userName.getText());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (isUserExists) {
+            if(isUserActive) {
+                try {
+                    Profile profile = server.getProfile(userName.getText());
+                    Stage newStage = new Stage();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/chatRoom.fxml"));
+                    loader.setControllerFactory(controllerClass -> {
+                        return new ChatRoomController(profile);
+                    });
+                    Parent root = loader.load();
+                    ChatRoomController controller = loader.getController();
+
+                    Scene scene = new Scene(root);
+
+
+                    root.setOnMousePressed(this::handleMousePressed);
+                    root.setOnMouseDragged(this::handleMouseDragged);
+
+                    newStage.setScene(scene);
+                    newStage.initStyle(StageStyle.UNDECORATED);
+                    newStage.show();
+                } catch (SQLException e) {
+                    System.out.println("SQL Error");
+                }
+
+                userName.clear();
+                errorLbl.setVisible(false);
+                errorLbl1.setVisible(false);
+            }else{
+                System.out.println("User Already Active");
+            }
+        }else{
+            System.out.println("User DoesNot Exists");
+        }
     }
 
     @FXML

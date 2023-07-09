@@ -1,6 +1,4 @@
-package server;
-
-import server.Server;
+package serverpkg;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

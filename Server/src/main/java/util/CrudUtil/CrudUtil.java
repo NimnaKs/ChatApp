@@ -1,6 +1,6 @@
 package util.CrudUtil;
 
-import lk.ijse.db.DbConnection;
+import util.db.DbConnection;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
