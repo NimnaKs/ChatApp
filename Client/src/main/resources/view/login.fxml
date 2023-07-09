@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="root" prefHeight="450.0" prefWidth="300.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+   <children>
+      <ImageView fitHeight="131.0" fitWidth="136.0" layoutX="84.0" layoutY="92.0">
+         <image>
+            <Image url="@../assets/HotCat.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="130.0" layoutY="206.0" prefHeight="54.0" prefWidth="85.0" text="Chat" textFill="#005780">
+         <font>
+            <Font name="Avenir Next Demi Bold" size="37.0" />
+         </font>
+      </Label>
+      <Label layoutX="85.0" layoutY="210.0" prefHeight="43.0" prefWidth="45.0" text="hot" textFill="#db3849">
+         <font>
+            <Font name="AppleGothic Regular" size="30.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutY="-2.0" prefHeight="25.0" prefWidth="301.0" style="-fx-background-color: #171821;">
+         <children>
+            <Label layoutX="104.0" layoutY="5.0" text="Chat Application" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold" size="12.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="20.0" fitWidth="21.0" layoutX="277.0" layoutY="3.0" onMouseClicked="#onMouseClick">
+               <image>
+                  <Image url="@../assets/exit.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <Label layoutX="-1.0" layoutY="421.0" prefHeight="17.0" prefWidth="300.0" style="-fx-alignment: center;" text="Terms &amp; privacy policies">
+         <font>
+            <Font name="Arial" size="10.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="loadingImgView" layoutX="135.0" layoutY="357.0">
+         <image>
+            <Image url="@../assets/dots-loading.gif" />
+         </image>
+      </ImageView>
+      <Label fx:id="loadingLbl" layoutX="120.0" layoutY="340.0" text="Loading">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="loginBtn" buttonType="RAISED" layoutX="120.0" layoutY="341.0" onAction="#onActionAddUser" ripplerFill="#2c3757" style="-fx-background-color: #171821;" text="Login" textFill="WHITE">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </JFXButton>
+      <TextField fx:id="userName" layoutX="64.0" layoutY="293.0" promptText="User Name" style="-fx-alignment: center;" styleClass="text-field-with-border" stylesheets="@../style/logincss.css">
+         <font>
+            <Font name="Arial Bold" size="14.0" />
+         </font>
+         <effect>
+            <DropShadow color="#2c3757" />
+         </effect>
+      </TextField>
+      <Label fx:id="errorLbl" layoutX="65.0" layoutY="321.0" prefHeight="16.0" prefWidth="179.0" style="-fx-alignment: center;" text="User Doesn't Exists" textFill="#db3849">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="errorLbl1" layoutX="64.0" layoutY="321.0" prefHeight="16.0" prefWidth="179.0" style="-fx-alignment: center;" text="User Already Active" textFill="#db3849">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
