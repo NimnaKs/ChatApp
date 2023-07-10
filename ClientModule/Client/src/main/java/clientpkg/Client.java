@@ -8,6 +8,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.Socket;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 public class Client implements Runnable {
     private static final String SERVER_IP="localhost";
@@ -51,18 +53,29 @@ public class Client implements Runnable {
 
     @Override
     public void run() {
-        while (true){
+        while (true) {
             try {
-                String message=dataInputStream.readUTF();
-                System.out.println("recived Msg"+message);
-                String receiveMsgStyle = "-fx-background-color: #373E4E; " +
-                        "-fx-padding: 5px;" +
-                        "-fx-font-size: 12px; " +
-                        "-fx-font-weight: bold; " +
-                        "-fx-text-fill: #FFFFFF;" +
-                        "-fx-font-family: Arial; " +
-                        "-fx-background-radius: 5";
-                controller.addClientMessage(message, receiveMsgStyle, "CENTER_LEFT");
+
+                String message = URLDecoder.decode(dataInputStream.readUTF(), "UTF-8");
+                System.out.println("recived Msg" + message);
+                if (message.equals("#imag3*")) {
+                    String fname = URLDecoder.decode(dataInputStream.readUTF(), "UTF-8");
+                    int imageSize = dataInputStream.readInt();
+                    System.out.println(imageSize);
+                    byte[] imageBytes = new byte[imageSize];
+                    dataInputStream.readFully(imageBytes);
+
+                    controller.addPhoto(fname, imageBytes,"#373E4E","CENTER_LEFT");
+                } else {
+                    String receiveMsgStyle = "-fx-background-color: #373E4E; " +
+                            "-fx-padding: 5px;" +
+                            "-fx-font-size: 12px; " +
+                            "-fx-font-weight: bold; " +
+                            "-fx-text-fill: #FFFFFF;" +
+                            "-fx-font-family: Arial; " +
+                            "-fx-background-radius: 5";
+                    controller.addClientMessage(message, receiveMsgStyle, "CENTER_LEFT");
+                }
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -71,7 +84,7 @@ public class Client implements Runnable {
 
     public void sendMsg(String message) {
         try {
-            dataOutputStream.writeUTF(message);
+            dataOutputStream.writeUTF(URLEncoder.encode(message, "UTF-8"));
             dataOutputStream.flush();
             System.out.println("Client Flush Msg");
         } catch (IOException e) {
@@ -79,4 +92,16 @@ public class Client implements Runnable {
         }
     }
 
+    public void sendImg(String fName, byte[] imageBytes) {
+        try {
+            dataOutputStream.writeUTF(URLEncoder.encode("#imag3*", "UTF-8"));
+            dataOutputStream.writeUTF(URLEncoder.encode(fName, "UTF-8"));
+            dataOutputStream.writeInt(imageBytes.length);
+            dataOutputStream.write(imageBytes);
+            dataOutputStream.flush();
+            System.out.println("Image sent to client.");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -23,7 +23,6 @@ import javafx.stage.Stage;
 import serverpkg.Server;
 
 import java.io.*;
-import java.net.Socket;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -109,10 +108,32 @@ public class ChatRoomController implements Initializable{
 
     @FXML
     void onActionOpenGallery(MouseEvent event) throws IOException {
+        FileChooser fileChooser = new FileChooser();
 
-    }
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
 
-    private void addClientPhoto(String filePath) {
+        Stage primaryStage = (Stage) root.getScene().getWindow();
+        File selectedFile = fileChooser.showOpenDialog(primaryStage);
+
+        String filePath=null;
+
+        if (selectedFile != null) {
+            filePath = selectedFile.getAbsolutePath();
+            System.out.println("Selected File Path: " + filePath);
+        }
+
+        // Read the image file
+        assert filePath != null;
+        File imageFile = new File(filePath);
+        FileInputStream fileInputStream = new FileInputStream(imageFile);
+        byte[] imageBytes = new byte[(int) imageFile.length()];
+        fileInputStream.read(imageBytes);
+        fileInputStream.close();
+
+        addPhoto("Me",imageBytes,"#7A8194","CENTER_RIGHT");
+
+        // Send image bytes to the client
+        client.sendImg(profile.getF_name(),imageBytes);
 
     }
 
@@ -134,5 +155,43 @@ public class ChatRoomController implements Initializable{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void addPhoto(String fname, byte[] imageBytes, String colorCode, String alignment) {
+        Platform.runLater(() -> {
+            AnchorPane anchorPane = new AnchorPane();
+            anchorPane.setPrefSize(180, 180);
+            anchorPane.setStyle("-fx-background-color: " + colorCode + ";" +
+                    "-fx-padding: 5px;" +
+                    "-fx-background-radius: 5;");
+
+            Label label = new Label(fname);
+            label.setStyle("-fx-background-color: " + colorCode + ";" +
+                    "-fx-padding: 0px;" +
+                    "-fx-font-size: 12px; " +
+                    "-fx-font-weight: bold; " +
+                    "-fx-text-fill: #FFFFFF;" +
+                    "-fx-font-family: Arial; " +
+                    "-fx-background-radius: 5;");
+
+            AnchorPane.setTopAnchor(label, 2.0);
+            AnchorPane.setLeftAnchor(label, 2.0);
+            anchorPane.getChildren().add(label);
+
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imageBytes);
+            Image image = new Image(byteArrayInputStream);
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(180);
+            imageView.setFitHeight(180);
+            AnchorPane.setTopAnchor(imageView, 20.0);
+            AnchorPane.setRightAnchor(imageView, 0.0);
+            anchorPane.getChildren().add(imageView);
+
+            HBox messageContainer = new HBox(anchorPane);
+            messageContainer.setAlignment(Pos.valueOf(alignment));
+            chatContainer.getChildren().add(messageContainer);
+            chatContainer.setSpacing(10);
+            scrollPane.setVvalue(1.0);
+        });
     }
 }

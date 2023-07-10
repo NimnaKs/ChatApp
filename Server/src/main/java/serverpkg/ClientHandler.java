@@ -4,6 +4,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 public class ClientHandler implements Runnable {
     private Socket clientSocket;
@@ -23,10 +25,10 @@ public class ClientHandler implements Runnable {
 
             while (true){
 
-                String message=inputStream.readUTF();
+                String message= URLDecoder.decode(inputStream.readUTF(), "UTF-8");
                 System.out.println("Received message from client: " + message);
 
-                if (message.equals("image")){
+                if (message.equals("#imag3*")){
                     String senderName=inputStream.readUTF();
                     int imageSize = inputStream.readInt();
                     byte[] imageBytes = new byte[imageSize];
@@ -49,8 +51,8 @@ public class ClientHandler implements Runnable {
             for (Socket socket : Server.clientSockets) {
                 if(socket != clientSocket){
                     outputStream=new DataOutputStream(socket.getOutputStream());
-                    outputStream.writeUTF("#imag3*");
-                    outputStream.writeUTF(senderName);
+                    outputStream.writeUTF(URLEncoder.encode("#imag3*", "UTF-8"));
+                    outputStream.writeUTF(URLEncoder.encode(senderName, "UTF-8"));
                     outputStream.writeInt(imageBytes.length);
                     outputStream.write(imageBytes);
                     outputStream.flush();
