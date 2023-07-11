@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.net.Socket;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 public class Client implements Runnable {
     private static final String SERVER_IP="localhost";
@@ -45,6 +46,9 @@ public class Client implements Runnable {
             dataInputStream = new DataInputStream(socket.getInputStream());
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
             this.controller=controller;
+            dataOutputStream.writeUTF(URLEncoder.encode("*NewUser*", StandardCharsets.UTF_8));
+            dataOutputStream.writeUTF(URLEncoder.encode(controller.getProfile().getF_name()+" Join the Chat", StandardCharsets.UTF_8));
+            dataOutputStream.flush();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -57,7 +61,6 @@ public class Client implements Runnable {
             try {
 
                 String message = URLDecoder.decode(dataInputStream.readUTF(), "UTF-8");
-                System.out.println("recived Msg" + message);
                 if (message.equals("#imag3*")) {
                     String fname = URLDecoder.decode(dataInputStream.readUTF(), "UTF-8");
                     int imageSize = dataInputStream.readInt();
@@ -65,7 +68,17 @@ public class Client implements Runnable {
                     byte[] imageBytes = new byte[imageSize];
                     dataInputStream.readFully(imageBytes);
 
-                    controller.addPhoto(fname, imageBytes,"#373E4E","CENTER_LEFT");
+                    controller.addPhoto(fname, imageBytes, "#373E4E", "CENTER_LEFT");
+                } else if (message.equals("*NewUser*")) {
+                    String messages = URLDecoder.decode(dataInputStream.readUTF(), StandardCharsets.UTF_8);
+                    String receiveMsgStyle = "-fx-background-color:  #171821; " +
+                            "-fx-padding: 5px;" +
+                            "-fx-font-size: 10px; " +
+                            "-fx-font-weight: bold; " +
+                            "-fx-text-fill: #FFFFFF;" +
+                            "-fx-font-family: Arial; " +
+                            "-fx-background-radius: 5";
+                    controller.addClientMessage(messages, receiveMsgStyle, "CENTER");
                 } else {
                     String receiveMsgStyle = "-fx-background-color: #373E4E; " +
                             "-fx-padding: 5px;" +
@@ -84,9 +97,8 @@ public class Client implements Runnable {
 
     public void sendMsg(String message) {
         try {
-            dataOutputStream.writeUTF(URLEncoder.encode(message, "UTF-8"));
+            dataOutputStream.writeUTF(URLEncoder.encode(message, StandardCharsets.UTF_8));
             dataOutputStream.flush();
-            System.out.println("Client Flush Msg");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -94,12 +106,21 @@ public class Client implements Runnable {
 
     public void sendImg(String fName, byte[] imageBytes) {
         try {
-            dataOutputStream.writeUTF(URLEncoder.encode("#imag3*", "UTF-8"));
-            dataOutputStream.writeUTF(URLEncoder.encode(fName, "UTF-8"));
+            dataOutputStream.writeUTF(URLEncoder.encode("#imag3*", StandardCharsets.UTF_8));
+            dataOutputStream.writeUTF(URLEncoder.encode(fName, StandardCharsets.UTF_8));
             dataOutputStream.writeInt(imageBytes.length);
             dataOutputStream.write(imageBytes);
             dataOutputStream.flush();
-            System.out.println("Image sent to client.");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void clientLeftMsg() {
+        try {
+            dataOutputStream.writeUTF(URLEncoder.encode("*NewUser*", StandardCharsets.UTF_8));
+            dataOutputStream.writeUTF(URLEncoder.encode(controller.getProfile().getF_name() + " Left the Chat", StandardCharsets.UTF_8));
+            dataOutputStream.flush();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -99,6 +99,7 @@ public class ChatRoomController implements Initializable{
         stage.setScene(scene);
         stage.hide();
         deActivateUser();
+        client.clientLeftMsg();
     }
 
     @Override
@@ -125,7 +126,6 @@ public class ChatRoomController implements Initializable{
 
         if (selectedFile != null) {
             filePath = selectedFile.getAbsolutePath();
-            System.out.println("Selected File Path: " + filePath);
         }
 
         // Read the image file
@@ -256,4 +256,7 @@ public class ChatRoomController implements Initializable{
         txtMsg.appendText("\uD83D\uDE02"+" ");
     }
 
+    public Profile getProfile() {
+        return profile;
+    }
 }

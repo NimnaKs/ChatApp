@@ -46,7 +46,9 @@ public class Server{
     }
 
     public static void main(String[] args) {
-        Server.getServerInstance().start();
+        Thread serverThread = new Thread(() -> Server.getServerInstance().start());
+        serverThread.setDaemon(true); // Set the thread as a daemon thread
+        serverThread.start();
     }
 
     public boolean checkName(String username) throws SQLException {

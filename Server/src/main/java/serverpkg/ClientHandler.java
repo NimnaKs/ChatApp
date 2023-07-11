@@ -26,7 +26,6 @@ public class ClientHandler implements Runnable {
             while (true){
 
                 String message= URLDecoder.decode(inputStream.readUTF(), "UTF-8");
-                System.out.println("Received message from client: " + message);
 
                 if (message.equals("#imag3*")){
                     String senderName=inputStream.readUTF();
@@ -71,7 +70,6 @@ public class ClientHandler implements Runnable {
                     outputStream=new DataOutputStream(socket.getOutputStream());
                     outputStream.writeUTF(message);
                     outputStream.flush();
-                    System.out.println("message broadcasted");
                 }
             }
         } catch (IOException e) {
