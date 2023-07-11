@@ -38,14 +38,14 @@
       </Label>
       <Line endX="180.46438598632812" endY="-1.0000038146972656" layoutX="110.0" layoutY="76.0" startX="-102.0" startY="-1.0" stroke="WHITE" strokeWidth="0.2" />
       <AnchorPane layoutX="47.0" layoutY="416.0" prefHeight="21.0" prefWidth="179.0" />
-      <AnchorPane layoutX="13.0" layoutY="407.0" prefHeight="35.0" prefWidth="275.0" style="-fx-background-color: #DCDCDC; -fx-background-radius: 6;">
+      <AnchorPane fx:id="msgPane" layoutX="13.0" layoutY="407.0" prefHeight="35.0" prefWidth="275.0" style="-fx-background-color: #DCDCDC; -fx-background-radius: 6;">
          <children>
             <ImageView fx:id="sendBtn" fitHeight="20.0" fitWidth="20.0" layoutX="249.0" layoutY="8.0" onMouseClicked="#onMouseClickSend">
                <image>
                   <Image url="@../assets/send.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="27.0" fitWidth="27.0" layoutX="218.0" layoutY="4.0">
+            <ImageView fx:id="EmojiBtn" fitHeight="27.0" fitWidth="27.0" layoutX="218.0" layoutY="4.0" onMouseClicked="#onActionGetEmojiPane">
                <image>
                   <Image url="@../assets/smilingEmoji.png" />
                </image>
@@ -68,5 +68,58 @@
             <VBox fx:id="chatContainer" layoutX="10.0" layoutY="76.0" prefHeight="321.0" prefWidth="280.0" style="-fx-background-color: #1B202D;" />
          </content>
       </ScrollPane>
+      <AnchorPane fx:id="emojiAnchorpane" layoutX="11.0" layoutY="267.0" prefHeight="130.0" prefWidth="280.0" style="-fx-background-color: white; -fx-background-radius: 10;">
+         <children>
+            <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="22.5" layoutY="75.0" onMouseClicked="#onActionEmoji6">
+               <image>
+                  <Image url="@../assets/Emoji6.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="22.5" layoutY="15.0" onMouseClicked="#onActionEmoji1">
+               <image>
+                  <Image url="@../assets/Emoji1.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="72.5" layoutY="15.0" onMouseClicked="#onActionEmoji2">
+               <image>
+                  <Image url="@../assets/Emoji2.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="122.5" layoutY="15.0" onMouseClicked="#onActionEmoji3">
+               <image>
+                  <Image url="@../assets/Emoji3.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="172.5" layoutY="15.0" onMouseClicked="#onActionEmoji4">
+               <image>
+                  <Image url="@../assets/Emoji4.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="222.5" layoutY="15.0" onMouseClicked="#onActionEmoji5">
+               <image>
+                  <Image url="@../assets/Emoji5.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="72.5" layoutY="75.0" onMouseClicked="#onActionEmoji7">
+               <image>
+                  <Image url="@../assets/Emoji7.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="122.5" layoutY="75.0" onMouseClicked="#onActionEmoji8">
+               <image>
+                  <Image url="@../assets/Emoji8.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="172.5" layoutY="75.0" onMouseClicked="#onActionEmoji9">
+               <image>
+                  <Image url="@../assets/Emoji9.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="222.5" layoutY="75.0" onMouseClicked="#onActionEmoji10">
+               <image>
+                  <Image url="@../assets/Emoji10.png" />
+               </image>
+            </ImageView>
+         </children></AnchorPane>
    </children>
 </AnchorPane>

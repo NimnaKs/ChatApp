@@ -15,9 +15,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import serverpkg.Server;
@@ -25,7 +23,6 @@ import serverpkg.Server;
 import java.io.*;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -54,6 +51,14 @@ public class ChatRoomController implements Initializable{
 
     @FXML
     private ScrollPane scrollPane;
+
+    @FXML
+    private ImageView EmojiBtn;
+
+    @FXML
+    private AnchorPane emojiAnchorpane;
+
+    private Pane emojiPane;
     private Profile profile=null;
 
     private Client client;
@@ -93,6 +98,7 @@ public class ChatRoomController implements Initializable{
         Stage stage = (Stage) root.getScene().getWindow();
         stage.setScene(scene);
         stage.hide();
+        deActivateUser();
     }
 
     @Override
@@ -104,8 +110,8 @@ public class ChatRoomController implements Initializable{
         profileImg.setImage(image);
 
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        emojiAnchorpane.setVisible(false);
     }
-
     @FXML
     void onActionOpenGallery(MouseEvent event) throws IOException {
         FileChooser fileChooser = new FileChooser();
@@ -194,4 +200,60 @@ public class ChatRoomController implements Initializable{
             scrollPane.setVvalue(1.0);
         });
     }
+
+    @FXML
+    void onActionGetEmojiPane(MouseEvent event) {
+        emojiAnchorpane.setVisible(!emojiAnchorpane.isVisible());
+    }
+
+    @FXML
+    void onActionEmoji1(MouseEvent event) {
+        txtMsg.appendText("\uD83D\uDE0E"+" ");
+    }
+
+    @FXML
+    void onActionEmoji10(MouseEvent event) {
+        txtMsg.appendText("\uD83D\uDE20"+" ");
+    }
+
+    @FXML
+    void onActionEmoji2(MouseEvent event) {
+        txtMsg.appendText("\uD83D\uDE0D"+" ");
+    }
+
+    @FXML
+    void onActionEmoji3(MouseEvent event) {
+        txtMsg.appendText("\uD83D\uDE22"+" ");
+    }
+
+    @FXML
+    void onActionEmoji4(MouseEvent event) {
+        txtMsg.appendText("\uD83D\uDE0A"+" ");
+    }
+
+    @FXML
+    void onActionEmoji5(MouseEvent event) {
+        txtMsg.appendText("\uD83D\uDE18"+" ");
+    }
+
+    @FXML
+    void onActionEmoji6(MouseEvent event) {
+        txtMsg.appendText("✨"+" ");
+    }
+
+    @FXML
+    void onActionEmoji7(MouseEvent event) {
+        txtMsg.appendText("\uD83D\uDC4D"+" ");
+    }
+
+    @FXML
+    void onActionEmoji8(MouseEvent event) {
+        txtMsg.appendText("❤️"+" ");
+    }
+
+    @FXML
+    void onActionEmoji9(MouseEvent event) {
+        txtMsg.appendText("\uD83D\uDE02"+" ");
+    }
+
 }
