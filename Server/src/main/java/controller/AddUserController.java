@@ -41,10 +41,10 @@ public class AddUserController implements Initializable {
 
     @FXML
     private Label errorLbl;
-    private String imgPath;
+    private String imgPath="/Users/mac/Desktop/ChatApp/Server/src/main/resources/assets/add-photo.png";
 
     @FXML
-    void onActionAddUser(ActionEvent event) {
+    void onActionAddUser(ActionEvent event) throws IOException {
         boolean addOk=false;
         try {
             addOk=LoginModel.saveUserDetails(imgPath,f_name.getText(),l_name.getText());
@@ -53,9 +53,26 @@ public class AddUserController implements Initializable {
         }
         if (addOk){
             errorLbl.setVisible(true);
+            imgPath="/Users/mac/Desktop/ChatApp/Server/src/main/resources/assets/add-photo.png";
+            addPhoto();
+            f_name.clear();
+            l_name.clear();
         }else{
             errorLbl.setText("Details save Unsuccessful.");
         }
+    }
+
+    private void addPhoto() throws IOException {
+        assert imgPath != null;
+        File imageFile = new File(imgPath);
+        FileInputStream fileInputStream = new FileInputStream(imageFile);
+        byte[] imageBytes = new byte[(int) imageFile.length()];
+        fileInputStream.read(imageBytes);
+        fileInputStream.close();
+
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imageBytes);
+        Image image = new Image(byteArrayInputStream);
+        profileImg.setImage(image);
     }
 
     @FXML
@@ -80,16 +97,7 @@ public class AddUserController implements Initializable {
             imgPath = selectedFile.getAbsolutePath();
         }
 
-        assert imgPath != null;
-        File imageFile = new File(imgPath);
-        FileInputStream fileInputStream = new FileInputStream(imageFile);
-        byte[] imageBytes = new byte[(int) imageFile.length()];
-        fileInputStream.read(imageBytes);
-        fileInputStream.close();
-
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imageBytes);
-        Image image = new Image(byteArrayInputStream);
-        profileImg.setImage(image);
+        addPhoto();
     }
 
     @Override

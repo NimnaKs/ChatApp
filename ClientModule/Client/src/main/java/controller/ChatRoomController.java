@@ -108,27 +108,29 @@ public class ChatRoomController implements Initializable{
         headerLbl.setText("        "+profile.getF_name()+"'s Chat Room");
         profileName.setText(profile.getF_name()+" "+profile.getL_name());
 
-        File imageFile = new File(profile.getProfilePhoto());
-        FileInputStream fileInputStream = null;
-        try {
-            fileInputStream = new FileInputStream(imageFile);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        byte[] imageBytes = new byte[(int) imageFile.length()];
-        try {
-            fileInputStream.read(imageBytes);
-            fileInputStream.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        if (!profile.getProfilePhoto().equals("assets/user1.png")) {
+            File imageFile = new File(profile.getProfilePhoto());
+            FileInputStream fileInputStream = null;
+            try {
+                fileInputStream = new FileInputStream(imageFile);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            byte[] imageBytes = new byte[(int) imageFile.length()];
+            try {
+                fileInputStream.read(imageBytes);
+                fileInputStream.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imageBytes);
-        Image image = new Image(byteArrayInputStream);
-        profileImg.setImage(image);
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imageBytes);
+            Image image = new Image(byteArrayInputStream);
+            profileImg.setImage(image);
 
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        emojiAnchorpane.setVisible(false);
+            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            emojiAnchorpane.setVisible(false);
+        }
     }
     @FXML
     void onActionOpenGallery(MouseEvent event) throws IOException {
