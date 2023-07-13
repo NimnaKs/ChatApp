@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="root" prefHeight="450.0" prefWidth="300.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddUserController">
+   <children>
+      <AnchorPane layoutY="-2.0" prefHeight="25.0" prefWidth="301.0" style="-fx-background-color: #171821;">
+         <children>
+            <Label layoutX="78.0" layoutY="5.0" text="Add New User Application" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold" size="12.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="20.0" fitWidth="21.0" layoutX="277.0" layoutY="3.0" onMouseClicked="#onMouseClick">
+               <image>
+                  <Image url="@../assets/exit.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <JFXButton fx:id="loginBtn" buttonType="RAISED" layoutX="124.0" layoutY="368.0" onAction="#onActionAddUser" ripplerFill="#2c3757" style="-fx-background-color: #171821;" text="Login" textFill="WHITE">
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </JFXButton>
+      <TextField fx:id="userName" layoutX="67.0" layoutY="264.0" promptText="First Name" style="-fx-alignment: center;" styleClass="text-field-with-border" stylesheets="@../style/logincss.css">
+         <font>
+            <Font name="Arial Bold" size="14.0" />
+         </font>
+         <effect>
+            <DropShadow color="#2c3757" />
+         </effect>
+      </TextField>
+      <TextField fx:id="userName1" layoutX="67.0" layoutY="311.0" promptText="Last Name" style="-fx-alignment: center;" styleClass="text-field-with-border" stylesheets="@../style/logincss.css">
+         <font>
+            <Font name="Arial Bold" size="14.0" />
+         </font>
+         <effect>
+            <DropShadow color="#2c3757" />
+         </effect>
+      </TextField>
+      <ImageView fitHeight="78.0" fitWidth="85.0" layoutX="113.0" layoutY="147.0">
+         <image>
+            <Image url="@../assets/add-photo.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="53.0" fitWidth="56.0" layoutX="37.0" layoutY="33.0">
+         <image>
+            <Image url="@../assets/HotCat.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="59.0" layoutY="74.0" prefHeight="23.0" prefWidth="48.0" text="Chat" textFill="#005780">
+         <font>
+            <Font name="Avenir Next Demi Bold" size="21.0" />
+         </font>
+      </Label>
+      <Label layoutX="31.0" layoutY="72.0" prefHeight="34.0" prefWidth="30.0" text="hot" textFill="#db3849">
+         <font>
+            <Font name="AppleGothic Regular" size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="87.0" layoutY="36.0" prefHeight="53.0" prefWidth="181.0" text="Login Form" textFill="#005780">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="27.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

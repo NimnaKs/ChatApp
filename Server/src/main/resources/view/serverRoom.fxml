@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="root" prefHeight="374.0" prefWidth="402.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ServerRoomController">
+   <children>
+      <ImageView fitHeight="53.0" fitWidth="56.0" layoutX="88.0" layoutY="23.0">
+         <image>
+            <Image url="@../assets/HotCat.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="110.0" layoutY="64.0" prefHeight="23.0" prefWidth="48.0" text="Chat" textFill="#005780">
+         <font>
+            <Font name="Avenir Next Demi Bold" size="21.0" />
+         </font>
+      </Label>
+      <Label layoutX="82.0" layoutY="62.0" prefHeight="34.0" prefWidth="30.0" text="hot" textFill="#db3849">
+         <font>
+            <Font name="AppleGothic Regular" size="20.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutY="-2.0" prefHeight="25.0" prefWidth="402.0" style="-fx-background-color: #171821;">
+         <children>
+            <Label layoutX="135.0" layoutY="5.0" text="Server Room Application" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold" size="12.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="20.0" fitWidth="21.0" layoutX="379.0" layoutY="3.0" onMouseClicked="#onMouseClick">
+               <image>
+                  <Image url="@../assets/exit.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <JFXButton fx:id="onActionAddUser" buttonType="RAISED" layoutX="11.0" layoutY="342.0" prefHeight="23.0" prefWidth="384.0" ripplerFill="#2c3757" style="-fx-background-color: #171821;" text="Add User +" textFill="WHITE">
+         <font>
+            <Font name="Arial Bold" size="12.0" />
+         </font>
+      </JFXButton>
+      <ScrollPane fx:id="serverRoomPane" layoutX="10.0" layoutY="98.0" prefHeight="236.0" prefWidth="384.0">
+        <content>
+          <AnchorPane fx:id="serverRoomAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="238.0" style="-fx-background-radius: 10;" />
+        </content>
+      </ScrollPane>
+      <Label alignment="CENTER" layoutX="138.0" layoutY="26.0" prefHeight="53.0" prefWidth="181.0" text="Server Room" textFill="#005780">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="27.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import serverpkg.Server;
@@ -259,4 +260,5 @@ public class ChatRoomController implements Initializable{
     public Profile getProfile() {
         return profile;
     }
+
 }
