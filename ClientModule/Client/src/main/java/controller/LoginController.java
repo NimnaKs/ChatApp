@@ -50,14 +50,14 @@ public class LoginController implements Initializable {
     @FXML
     private Label errorLbl1;
 
+    private Server server;
     private double xOffset = 0;
     private double yOffset = 0;
-
-    private Server server=Server.getServerInstance();
     private Profile profile=null;
 
     @FXML
     void onActionAddUser(ActionEvent event) throws IOException {
+
         boolean isUserExists=false;
         boolean isUserActive=false;
         try {
@@ -127,6 +127,13 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        server=Server.getServerInstance();
+        try {
+            server.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         loginBtn.setVisible(false);
         userName.setVisible(false);

@@ -6,7 +6,6 @@ import serverpkg.Server;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.Socket;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -15,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 public class Client implements Runnable {
     private static final String SERVER_IP="localhost";
 
-    private static final int SERVER_PORT=8008;
+    private static final int SERVER_PORT=8020;
     final private Socket socket;
 
     final private DataInputStream dataInputStream;

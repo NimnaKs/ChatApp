@@ -16,7 +16,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import serverpkg.Server;
@@ -59,12 +58,12 @@ public class ChatRoomController implements Initializable{
     @FXML
     private AnchorPane emojiAnchorpane;
 
+    Server server=Server.getServerInstance();
+
     private Pane emojiPane;
     private Profile profile=null;
 
     private Client client;
-
-    final private Server server=Server.getServerInstance();
     public void setClient(Client client) {
         this.client = client;
     }

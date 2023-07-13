@@ -1,11 +1,16 @@
 package serverpkg;
 
+import controller.ServerRoomController;
+import dto.Profile;
+import model.LoginModel;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 public class ClientHandler implements Runnable {
     private Socket clientSocket;
@@ -13,8 +18,11 @@ public class ClientHandler implements Runnable {
 
     private DataOutputStream outputStream;
 
-    public ClientHandler(Socket clientSocket) {
+    private ServerRoomController serverRoomController;
+
+    public ClientHandler(Socket clientSocket, ServerRoomController serverRoomController) {
         this.clientSocket = clientSocket;
+        this.serverRoomController = serverRoomController;
     }
 
     @Override
@@ -24,9 +32,12 @@ public class ClientHandler implements Runnable {
             outputStream=new DataOutputStream(clientSocket.getOutputStream());
 
             while (true){
-
                 String message= URLDecoder.decode(inputStream.readUTF(), "UTF-8");
-
+                if (message.equals("*NewUser*")){
+                    String messages = URLDecoder.decode(inputStream.readUTF(), "UTF-8");
+                    serverRoomController.setInfo(messages);
+                    broadcastMsg(message,messages);
+                }
                 if (message.equals("#imag3*")){
                     String senderName=inputStream.readUTF();
                     int imageSize = inputStream.readInt();
@@ -43,6 +54,21 @@ public class ClientHandler implements Runnable {
             e.printStackTrace();
         }
 
+    }
+
+    private void broadcastMsg(String message, String messages) {
+        try {
+            for (Socket socket : Server.clientSockets) {
+                if(socket != clientSocket){
+                    outputStream=new DataOutputStream(socket.getOutputStream());
+                    outputStream.writeUTF(URLEncoder.encode(message, "UTF-8"));
+                    outputStream.writeUTF(URLEncoder.encode(messages, "UTF-8"));
+                    outputStream.flush();
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void broadcastMsg(String senderName, byte[] imageBytes) {
@@ -68,7 +94,7 @@ public class ClientHandler implements Runnable {
             for (Socket socket : Server.clientSockets) {
                 if(socket != clientSocket){
                     outputStream=new DataOutputStream(socket.getOutputStream());
-                    outputStream.writeUTF(message);
+                    outputStream.writeUTF(URLEncoder.encode(message, "UTF-8"));
                     outputStream.flush();
                 }
             }
