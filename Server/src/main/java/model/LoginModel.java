@@ -32,4 +32,8 @@ public class LoginModel {
     public static boolean userDeactivate(String fName) throws SQLException {
         return CrudUtil.execute("UPDATE profile SET activeStatus=false WHERE f_name=?",fName);
     }
+
+    public static boolean saveUserDetails(String imgPath, String f_name, String l_name) throws SQLException {
+        return CrudUtil.execute("INSERT INTO profile VALUES (?,?,?,?)",f_name,l_name,imgPath,false);
+    }
 }

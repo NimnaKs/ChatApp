@@ -2,9 +2,11 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -13,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -30,6 +33,9 @@ public class ServerRoomController {
 
     @FXML
     private VBox chatContainer;
+
+    private double xOffset = 0;
+    private double yOffset = 0;
 
     @FXML
     void onMouseClick(MouseEvent event) throws IOException {
@@ -57,4 +63,27 @@ public class ServerRoomController {
 
         });
     }
+    @FXML
+    void onActionAddUser(ActionEvent actionEvent) throws IOException {
+        Stage stage=new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/addUserForm.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        root.setOnMousePressed(this::handleMousePressed);
+        root.setOnMouseDragged(this::handleMouseDragged);
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.show();
+    }
+    private void handleMousePressed(MouseEvent event) {
+        xOffset = event.getSceneX();
+        yOffset = event.getSceneY();
+    }
+
+    private void handleMouseDragged(MouseEvent event) {
+        Stage primaryStage = (Stage) ((Parent) event.getSource()).getScene().getWindow();
+        primaryStage.setX(event.getScreenX() - xOffset);
+        primaryStage.setY(event.getScreenY() - yOffset);
+    }
+
 }

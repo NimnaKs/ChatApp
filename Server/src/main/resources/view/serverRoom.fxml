@@ -40,7 +40,7 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <JFXButton fx:id="onActionAddUser" buttonType="RAISED" layoutX="11.0" layoutY="342.0" prefHeight="23.0" prefWidth="384.0" ripplerFill="#2c3757" style="-fx-background-color: #171821;" text="Add User +" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="11.0" layoutY="342.0" onAction="#onActionAddUser" prefHeight="23.0" prefWidth="384.0" ripplerFill="#2c3757" style="-fx-background-color: #171821;" text="Add User +" textFill="WHITE">
          <font>
             <Font name="Arial Bold" size="12.0" />
          </font>
