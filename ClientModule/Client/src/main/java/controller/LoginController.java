@@ -129,11 +129,6 @@ public class LoginController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         server=Server.getServerInstance();
-        try {
-            server.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
         loginBtn.setVisible(false);
         userName.setVisible(false);

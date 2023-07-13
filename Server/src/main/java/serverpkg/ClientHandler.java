@@ -37,8 +37,7 @@ public class ClientHandler implements Runnable {
                     String messages = URLDecoder.decode(inputStream.readUTF(), "UTF-8");
                     serverRoomController.setInfo(messages);
                     broadcastMsg(message,messages);
-                }
-                if (message.equals("#imag3*")){
+                } else if (message.equals("#imag3*")){
                     String senderName=inputStream.readUTF();
                     int imageSize = inputStream.readInt();
                     byte[] imageBytes = new byte[imageSize];

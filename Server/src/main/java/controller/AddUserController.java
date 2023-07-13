@@ -1,6 +1,8 @@
 package controller;
 
 import com.jfoenix.controls.JFXButton;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import model.LoginModel;
 
 import java.io.*;
@@ -60,6 +63,11 @@ public class AddUserController implements Initializable {
         }else{
             errorLbl.setText("Details save Unsuccessful.");
         }
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(10), Actionevent -> {
+            errorLbl.setVisible(false);
+        }));
+
+        timeline.play();
     }
 
     private void addPhoto() throws IOException {

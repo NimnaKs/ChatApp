@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,9 +19,11 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
-public class ServerRoomController {
+public class ServerRoomController{
 
     @FXML
     private AnchorPane root;
@@ -60,6 +63,7 @@ public class ServerRoomController {
             messageContainer.setAlignment(Pos.valueOf("CENTER_LEFT"));
             chatContainer.setSpacing(15);
             chatContainer.getChildren().add(messageContainer);
+            scrollPane.setVvalue(1.0);
 
         });
     }
@@ -85,5 +89,4 @@ public class ServerRoomController {
         primaryStage.setX(event.getScreenX() - xOffset);
         primaryStage.setY(event.getScreenY() - yOffset);
     }
-
 }
