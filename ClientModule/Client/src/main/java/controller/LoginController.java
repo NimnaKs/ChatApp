@@ -121,12 +121,10 @@ public class LoginController implements Initializable {
                 errorLbl.setVisible(false);
                 errorLbl1.setVisible(false);
             } else {
-                System.out.println("User Already Active");
                 errorLbl.setVisible(false);
                 errorLbl1.setVisible(true);
             }
         } else {
-            System.out.println("User DoesNot Exists");
             errorLbl.setVisible(true);
             errorLbl1.setVisible(false);
         }

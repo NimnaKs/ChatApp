@@ -2,6 +2,7 @@ package serverpkg;
 
 import controller.ServerRoomController;
 import dto.Profile;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -81,9 +82,9 @@ public class Server implements Runnable {
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
-        ServerRoomController controller = loader.getController();
-        server.setServerRoomController(controller);
-        controller.setInfo("Server is Started .....");
+        serverRoomController = loader.getController();
+//        Server.getServerInstance().setServerRoomController(controller);
+        serverRoomController.setInfo("Server is Started .....");
     }
 
     private void handleMousePressed(MouseEvent event) {
@@ -101,7 +102,9 @@ public class Server implements Runnable {
     public void run() {
         try {
             while (true) {
-//                serverRoomController.setInfo("Server is Listening.....");
+                Platform.runLater(() -> {
+                            this.serverRoomController.setInfo("Server is Listening.....");
+                        });
                 Socket clientSocket = serverSocket.accept();
 
                 boolean isAClient = isAClient(clientSocket);
