@@ -107,7 +107,7 @@
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="122.5" layoutY="75.0" onMouseClicked="#onActionEmoji8">
                <image>
-                  <Image url="@../assets/Emoji8.png" />
+                  <Image url="@../assets/heart.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="172.5" layoutY="75.0" onMouseClicked="#onActionEmoji9">

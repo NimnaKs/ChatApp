@@ -15,14 +15,18 @@ public class ServerLauncher extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Server server=Server.getServerInstance();
+        new Thread(server).start();
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/serverRoom.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
+
         root.setOnMousePressed(this::handleMousePressed);
         root.setOnMouseDragged(this::handleMouseDragged);
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
+
         ServerRoomController controller = loader.getController();
         server.setServerRoomController(controller);
         controller.setInfo("Server is Started .....");

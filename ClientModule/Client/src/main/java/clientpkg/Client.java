@@ -1,7 +1,6 @@
 package clientpkg;
 
 import controller.ChatRoomController;
-import serverpkg.Server;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -46,7 +45,7 @@ public class Client implements Runnable {
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
             this.controller=controller;
             dataOutputStream.writeUTF(URLEncoder.encode("*NewUser*", StandardCharsets.UTF_8));
-            dataOutputStream.writeUTF(URLEncoder.encode(controller.getProfile().getF_name()+" Join the Chat", StandardCharsets.UTF_8));
+            dataOutputStream.writeUTF(controller.getProfile().getF_name()+" Join the Chat");
             dataOutputStream.flush();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -58,15 +57,12 @@ public class Client implements Runnable {
     public void run() {
         while (true) {
             try {
-
                 String message = URLDecoder.decode(dataInputStream.readUTF(), "UTF-8");
                 if (message.equals("#imag3*")) {
                     String fname = URLDecoder.decode(dataInputStream.readUTF(), "UTF-8");
                     int imageSize = dataInputStream.readInt();
-                    System.out.println(imageSize);
                     byte[] imageBytes = new byte[imageSize];
                     dataInputStream.readFully(imageBytes);
-
                     controller.addPhoto(fname, imageBytes, "#373E4E", "CENTER_LEFT");
                 } else if (message.equals("*NewUser*")) {
                     String messages = URLDecoder.decode(dataInputStream.readUTF(), StandardCharsets.UTF_8);
@@ -117,8 +113,18 @@ public class Client implements Runnable {
 
     public void clientLeftMsg() {
         try {
-            dataOutputStream.writeUTF(URLEncoder.encode("*NewUser*", StandardCharsets.UTF_8));
-            dataOutputStream.writeUTF(URLEncoder.encode(controller.getProfile().getF_name() + " Left the Chat", StandardCharsets.UTF_8));
+            dataOutputStream.writeUTF("*NewUser*");
+            dataOutputStream.writeUTF(controller.getProfile().getF_name() + " Left the Chat");
+            dataOutputStream.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deActivateUser(String fName) {
+        try {
+            dataOutputStream.writeUTF("*UserDeactivate*");
+            dataOutputStream.writeUTF(fName);
             dataOutputStream.flush();
         } catch (IOException e) {
             throw new RuntimeException(e);

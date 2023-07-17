@@ -18,6 +18,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.Player;
 import serverpkg.Server;
 
 import java.io.*;
@@ -58,7 +60,7 @@ public class ChatRoomController implements Initializable{
     @FXML
     private AnchorPane emojiAnchorpane;
 
-    Server server=Server.getServerInstance();
+//    Server server=Server.getServerInstance();
 
     private Pane emojiPane;
     private Profile profile=null;
@@ -171,15 +173,19 @@ public class ChatRoomController implements Initializable{
             chatContainer.setSpacing(10);
             chatContainer.getChildren().add(messageContainer);
             scrollPane.setVvalue(1.0);
+            try {
+                String mp3FilePath = "/Users/mac/Desktop/ChatApp/ClientModule/Client/src/main/resources/assets/Message.m4r";
+                Player player = null;
+                player = new Player(new FileInputStream(mp3FilePath));
+                player.play();
+            } catch (FileNotFoundException | JavaLayerException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 
     public void deActivateUser() {
-        try {
-            boolean isDeactivate=server.userDeActivate(profile.getF_name());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        client.deActivateUser(profile.getF_name());
     }
 
     public void addPhoto(String fname, byte[] imageBytes, String colorCode, String alignment) {

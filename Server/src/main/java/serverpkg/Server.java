@@ -10,61 +10,41 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.LoginModel;
 
+import java.io.DataInputStream;
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
+import java.net.URLDecoder;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
-public class Server{
-    private static  final int PORT=8020;
-    ServerSocket serverSocket=null;
-    static List<Socket> clientSockets=new ArrayList<>();
-
-    private ServerRoomController serverRoomController;
-
+public class Server implements Runnable {
+    private static final int PORT = 8020;
+    static List<Socket> clientSockets = new ArrayList<>();
     private static Server server;
-
+    ServerSocket serverSocket = null;
+    private ServerRoomController serverRoomController;
     private double xOffset = 0;
     private double yOffset = 0;
+
+    private String message = null;
+
     private Server() {
 
         try {
-            serverSocket=new ServerSocket(PORT);
+            serverSocket = new ServerSocket(PORT);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
     }
 
-    public static Server getServerInstance(){
-        if (server==null){
-            server=new Server();
+    public static Server getServerInstance() {
+        if (server == null) {
+            server = new Server();
         }
         return server;
-    }
-
-    public void start() {
-        try {
-            while (true) {
-                Socket clientSocket = serverSocket.accept();
-                clientSockets.add(clientSocket);
-                System.out.println("New client connected: " + clientSocket.getInetAddress());
-                ClientHandler clientHandler = new ClientHandler(clientSocket,serverRoomController);
-                Thread thread = new Thread(clientHandler);
-                thread.start();
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public boolean checkName(String username) throws SQLException {
@@ -79,8 +59,8 @@ public class Server{
         return LoginModel.getProfile(username);
     }
 
-    public boolean userDeActivate(String fName) throws SQLException {
-        return LoginModel.userDeactivate(fName);
+    public void userDeActivate(String fName) throws SQLException {
+        LoginModel.userDeactivate(fName);
     }
 
     public ServerRoomController getServerRoomController() {
@@ -92,7 +72,7 @@ public class Server{
     }
 
     public void load() throws IOException {
-        Stage stage=new Stage();
+        Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/serverRoom.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
@@ -105,6 +85,7 @@ public class Server{
         server.setServerRoomController(controller);
         controller.setInfo("Server is Started .....");
     }
+
     private void handleMousePressed(MouseEvent event) {
         xOffset = event.getSceneX();
         yOffset = event.getSceneY();
@@ -114,6 +95,48 @@ public class Server{
         Stage primaryStage = (Stage) ((Parent) event.getSource()).getScene().getWindow();
         primaryStage.setX(event.getScreenX() - xOffset);
         primaryStage.setY(event.getScreenY() - yOffset);
+    }
+
+    @Override
+    public void run() {
+        try {
+            while (true) {
+//                serverRoomController.setInfo("Server is Listening.....");
+                Socket clientSocket = serverSocket.accept();
+
+                boolean isAClient = isAClient(clientSocket);
+
+                ClientHandler clientHandler;
+                if (isAClient) {
+                    clientSockets.add(clientSocket);
+                    clientHandler = new ClientHandler(clientSocket, serverRoomController, message);
+                } else {
+                    clientHandler = new ClientHandler(clientSocket);
+                }
+                Thread thread = new Thread(clientHandler);
+                thread.start();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private boolean isAClient(Socket clientSocket) throws IOException {
+        DataInputStream inputStream = new DataInputStream(clientSocket.getInputStream());
+        message = URLDecoder.decode(inputStream.readUTF(), "UTF-8");
+        if (message.equals("*NewUser*")) {
+            message = inputStream.readUTF();
+            return true;
+        }
+        return false;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
 

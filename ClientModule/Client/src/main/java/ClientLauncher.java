@@ -16,7 +16,7 @@ public class ClientLauncher extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        Server.getServerInstance().load();
+//        Server.getServerInstance().load();
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/login.fxml")));
         Scene scene = new Scene(root);
